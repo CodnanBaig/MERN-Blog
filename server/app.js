@@ -1,16 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require('dotenv').config()
 const userRouter = require("./routes/userRoutes");
 
 const app = express();
 app.use(express.json());
 app.use("/api", userRouter);
 
-
+mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://adnan_masai:adnan_masai@cluster0.prihoqb.mongodb.net/MERN-Blog"
-  )
-  .then(() => app.listen(8888))
-  .then(() => console.log("Listening on 8888"))
+    process.env.MONGODB)
+  .then(() => app.listen(process.env.PORT))
+  .then(() => console.log(`Listening on ${process.env.PORT}`))
   .catch((err) => console.log(err));
