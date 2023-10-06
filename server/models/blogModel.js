@@ -19,5 +19,32 @@ const Blog = new mongoose.Schema({
     photo: {
         type: String,
         required: true
+    },
+    blog: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    featured: {
+        type: Boolean,
+        default: false
+    }, 
+    views: {
+        type: Number,
+        default: 0
+    },
+    likes: {
+        type: [String],
+        default: []
+    }, 
+    comments: {
+        type: [String],
+        default: []
     }
-})
+}, {timestamps: true})
+
+
+module.exports = mongoose.model("Blog", Blog);
