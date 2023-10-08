@@ -12,6 +12,16 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.getSingleUser = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const user = await User.findById(id);
+    res.status(200).json({ data: user });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+}
+
 exports.signUp = async (req, res) => {
   const body = req.body;
   try {
@@ -26,7 +36,6 @@ exports.signUp = async (req, res) => {
       password: hashed_pass,
     });
     const token = jwt.sign({ id: new_user._id }, "secretkey", {
-      expiresIn: "5h",
     });
 
     return res.status(201).json({ token: token });
@@ -46,7 +55,9 @@ exports.signIn = async (req, res) => {
     if (!compare_pass) {
       return res.status(404).json({ message: "Invalid Credentials" });
     }
-    const token = jwt.sign({ id: user._id }, "secretkey", { expiresIn: "5h" });
+    const token = jwt.sign({ id: user._id }, "secretkey");
     return res.status(201).json({ token: token });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };

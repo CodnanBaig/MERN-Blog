@@ -20,3 +20,35 @@ exports.getBlogs = async (req, res) => {
     res.status(403).json(error);
   }
 };
+
+exports.getBlogById = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const blog = await Blog.findById(id);
+    return res.status(200).json(blog);
+  } catch (error) {
+    res.status(403).json(error);
+  }
+}
+
+exports.updateBlog = async (req, res) => {
+  const {id} = req.params;
+  const body = req.body;
+  try {
+    const updated_blog = await Blog.findByIdAndUpdate(id, body);
+    return res.status(200).json({message: "Updated Successfuly", updated_blog});
+  } catch (error) {
+    res.status(403).json(error);
+  }
+}
+
+exports.deleteBlog = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const deleted_blog = await Blog.findByIdAndRemove(id)
+    return res.status(200).json(deleted_blog);
+  } catch (error) {
+    res.status(403).json(error);
+  }
+}
+
